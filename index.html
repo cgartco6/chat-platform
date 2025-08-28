@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Clone - Complete Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #3b4a54;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            height: 90vh;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Sidebar styling */
+        .sidebar {
+            width: 30%;
+            background-color: #f0f2f5;
+            border-right: 1px solid #e6e6e6;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            padding: 10px 16px;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e6e6e6;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .sidebar-icons {
+            color: #54656f;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .sidebar-icons i {
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .search-container {
+            padding: 8px 15px;
+            background-color: #fff;
+            border-bottom: 1px solid #e6e6e6;
+        }
+        
+        .search-box {
+            background-color: #f0f2f5;
+            border-radius: 18px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-box i {
+            color: #54656f;
+            margin-right: 10px;
+        }
+        
+        .search-box input {
+            border: none;
+            background: transparent;
+            width: 100%;
+            outline: none;
+            font-size: 14px;
+        }
+        
+        .contacts {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .contact {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        
+        .contact:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .contact.active {
+            background-color: #e9ebeb;
+        }
+        
+        .contact-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 15px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000;
+        }
+        
+        .contact-message {
+            font-size: 14px;
+            color: #667781;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+        
+        .message-info {
+            text-align: right;
+        }
+        
+        .message-time {
+            font-size: 12px;
+            color: #667781;
+            margin-bottom: 5px;
+        }
+        
+        .message-count {
+            display: inline-block;
+            background-color: #25d366;
+            color: white;
+            font-size: 12px;
+            padding: 0 5px;
+            border-radius: 50%;
+            min-width: 20px;
+            text-align: center;
+            height: 20px;
+            line-height: 20px;
+        }
+        
+        /* Chat area styling */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #efeae2;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23f1f1f1' fill-opacity='0.4'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .chat-header {
+            padding: 10px 16px;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e6e6e6;
+        }
+        
+        .chat-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-status {
+            display: flex;
+            flex-direction: column;
+            margin-left: 15px;
+        }
+        
+        .chat-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .status {
+            font-size: 13px;
+            color: #667781;
+        }
+        
+        .chat-icons {
+            color: #54656f;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .chat-icons i {
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .message {
+            max-width: 65%;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 7.5px;
+            position: relative;
+            word-wrap: break-word;
+        }
+        
+        .message-time-stamp {
+            font-size: 11px;
+            color: #667781;
+            text-align: right;
+            margin-top: 2px;
+        }
+        
+        .received {
+            align-self: flex-start;
+            background-color: #fff;
+            border-top-left-radius: 0;
+        }
+        
+        .sent {
+            align-self: flex-end;
+            background-color: #d9fdd3;
+            border-top-right-radius: 0;
+        }
+        
+        .media-message {
+            padding: 5px;
+        }
+        
+        .media-content {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        
+        .audio-message {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+        
+        .audio-player {
+            flex: 1;
+            height: 30px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+        }
+        
+        .play-button {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: #25d366;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+            margin: 0 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #25d366;
+            width: 30%;
+        }
+        
+        .input-area {
+            padding: 10px 16px;
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #e6e6e6;
+        }
+        
+        .input-area i {
+            color: #54656f;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        
+        .message-input {
+            flex: 1;
+            background-color: #fff;
+            border-radius: 20px;
+            border: none;
+            padding: 9px 15px;
+            font-size: 15px;
+            outline: none;
+        }
+        
+        .send-button {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        /* Payment modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .credit-packages {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .credit-package {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .credit-package.selected {
+            border-color: #25d366;
+            background-color: rgba(37, 211, 102, 0.1);
+        }
+        
+        .payment-button {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        /* Country selector */
+        .country-selector {
+            margin-bottom: 15px;
+        }
+        
+        .country-selector select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+            }
+            
+            .sidebar {
+                width: 100%;
+                display: none;
+            }
+            
+            .chat-area {
+                width: 100%;
+            }
+            
+            .sidebar.active {
+                display: flex;
+            }
+            
+            .chat-area.hidden {
+                display: none;
+            }
+        }
+        
+        /* System status indicator */
+        .system-status {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #25d366;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: white;
+        }
+        
+        /* App download section */
+        .app-download {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: #25d366;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        
+        /* Backend status panel */
+        .backend-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            max-width: 250px;
+        }
+        
+        .backend-panel h3 {
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 5px;
+        }
+        
+        .backend-status {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #25d366;
+            margin-left: 10px;
+        }
+        
+        .status-indicator.offline {
+            background-color: #ff4d4d;
+        }
+        
+        .status-indicator.processing {
+            background-color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar with contacts -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <div class="avatar">JS</div>
+                    <span>Your Name</span>
+                </div>
+                <div class="sidebar-icons">
+                    <i class="fas fa-status"></i>
+                    <i class="fas fa-comment-alt"></i>
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </div>
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search or start new chat">
+                </div>
+            </div>
+            <div class="contacts">
+                <!-- Contacts will be added here dynamically -->
+            </div>
+        </div>
+        
+        <!-- Chat area -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="chat-info">
+                    <div class="avatar">JD</div>
+                    <div class="chat-status">
+                        <div class="chat-name">John Doe</div>
+                        <div class="status">online</div>
+                    </div>
+                </div>
+                <div class="chat-icons">
+                    <i class="fas fa-search"></i>
+                    <i class="fas fa-paperclip"></i>
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </div>
+            <div class="messages">
+                <!-- Messages will be added here dynamically -->
+            </div>
+            <div class="input-area">
+                <i class="far fa-smile"></i>
+                <i class="fas fa-paperclip" id="attach-button"></i>
+                <input type="text" class="message-input" placeholder="Type a message">
+                <i class="fas fa-microphone"></i>
+                <div class="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Buy Credits</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="country-selector">
+                <select id="country-select">
+                    <option value="ZA">South Africa</option>
+                    <option value="AU">Australia</option>
+                    <option value="US">United States</option>
+                    <option value="GB">United Kingdom</option>
+                    <option value="DE">Germany</option>
+                </select>
+            </div>
+            <div class="credit-packages">
+                <div class="credit-package" data-amount="5" data-price="4.99">
+                    <div>
+                        <h3>5 Credits</h3>
+                        <p>For basic chatroom access</p>
+                    </div>
+                    <div>$4.99</div>
+                </div>
+                <div class="credit-package selected" data-amount="15" data-price="12.99">
+                    <div>
+                        <h3>15 Credits</h3>
+                        <p>Most popular option</p>
+                    </div>
+                    <div>$12.99</div>
+                </div>
+                <div class="credit-package" data-amount="30" data-price="24.99">
+                    <div>
+                        <h3>30 Credits</h3>
+                        <p>Best value</p>
+                    </div>
+                    <div>$24.99</div>
+                </div>
+            </div>
+            <button class="payment-button">Pay with Secure Payment</button>
+        </div>
+    </div>
+
+    <!-- System Status Indicator -->
+    <div class="system-status">
+        <div class="status-dot"></div>
+        <span>System Online</span>
+    </div>
+
+    <!-- App Download Button -->
+    <div class="app-download">
+        <i class="fas fa-mobile-alt"></i>
+        <span>Download Our Mobile App</span>
+    </div>
+
+    <!-- Backend Status Panel -->
+    <div class="backend-panel">
+        <h3>Backend Services Status</h3>
+        <div class="backend-status">
+            <div class="status-item">
+                <span>Authentication API</span>
+                <div class="status-indicator"></div>
+            </div>
+            <div class="status-item">
+                <span>Message Service</span>
+                <div class="status-indicator"></div>
+            </div>
+            <div class="status-item">
+                <span>Media Storage</span>
+                <div class="status-indicator"></div>
+            </div>
+            <div class="status-item">
+                <span>Payment Gateway</span>
+                <div class="status-indicator"></div>
+            </div>
+            <div class="status-item">
+                <span>Database</span>
+                <div class="status-indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for contacts and messages
+        const contacts = [
+            { id: 1, name: "John Doe", avatar: "JD", lastMessage: "Hey, how are you?", time: "10:30 AM", unread: 3 },
+            { id: 2, name: "Jane Smith", avatar: "JS", lastMessage: "See you tomorrow!", time: "Yesterday", unread: 0 },
+            { id: 3, name: "Alice Johnson", avatar: "AJ", lastMessage: "Did you finish the project?", time: "Yesterday", unread: 1 },
+            { id: 4, name: "Bob Williams", avatar: "BW", lastMessage: "Let's meet for coffee", time: "Wednesday", unread: 0 },
+            { id: 5, name: "Eva Davis", avatar: "ED", lastMessage: "The meeting is canceled", time: "Tuesday", unread: 0 },
+            { id: 6, name: "Mike Wilson", avatar: "MW", lastMessage: "Check this out!", time: "Monday", unread: 5 },
+            { id: 7, name: "Sarah Brown", avatar: "SB", lastMessage: "Happy birthday! 🎉", time: "Sunday", unread: 0 },
+            { id: 8, name: "Tom Taylor", avatar: "TT", lastMessage: "Call me when you're free", time: "Saturday", unread: 0 }
+        ];
+
+        const messages = {
+            1: [
+                { text: "Hey there!", time: "10:15 AM", sender: "contact" },
+                { text: "Hi! How are you?", time: "10:16 AM", sender: "user" },
+                { text: "I'm good, thanks! How about you?", time: "10:20 AM", sender: "contact" },
+                { text: "I'm doing great. What are you up to today?", time: "10:22 AM", sender: "user" },
+                { text: "Just working on some projects. How about you?", time: "10:25 AM", sender: "contact" },
+                { text: "Same here, just coding away! 😊", time: "10:26 AM", sender: "user" },
+                { text: "That's cool! What are you working on?", time: "10:30 AM", sender: "contact" }
+            ],
+            2: [
+                { text: "Hi Jane!", time: "09:15 AM", sender: "user" },
+                { text: "Hello! How's it going?", time: "09:20 AM", sender: "contact" },
+                { text: "All good. Are we still meeting tomorrow?", time: "09:22 AM", sender: "user" },
+                { text: "Yes, definitely! See you at 3 PM.", time: "09:25 AM", sender: "contact" },
+                { text: "Perfect! Looking forward to it.", time: "09:26 AM", sender: "user" },
+                { text: "See you tomorrow!", time: "09:30 AM", sender: "contact" }
+            ],
+            6: [
+                { text: "Check out this photo I took!", time: "09:15 AM", sender: "contact", type: "image", content: "https://picsum.photos/200/300" },
+                { text: "Wow, that's beautiful! Where was this taken?", time: "09:20 AM", sender: "user" },
+                { text: "At the beach last weekend. Here's another one.", time: "09:25 AM", sender: "contact", type: "image", content: "https://picsum.photos/250/300" },
+                { text: "Nice! I also have a voice note for you", time: "09:30 AM", sender: "user", type: "audio", content: "voice_note.mp3", duration: "0:45" }
+            ]
+        };
+
+        // DOM elements
+        const contactsContainer = document.querySelector('.contacts');
+        const messagesContainer = document.querySelector('.messages');
+        const messageInput = document.querySelector('.message-input');
+        const sendButton = document.querySelector('.send-button');
+        const attachButton = document.getElementById('attach-button');
+        const chatHeader = document.querySelector('.chat-header');
+        const chatName = document.querySelector('.chat-name');
+        const paymentModal = document.getElementById('payment-modal');
+        const closeModal = document.querySelector('.close-modal');
+        const creditPackages = document.querySelectorAll('.credit-package');
+        const paymentButton = document.querySelector('.payment-button');
+        const countrySelect = document.getElementById('country-select');
+        const appDownload = document.querySelector('.app-download');
+        const statusIndicators = document.querySelectorAll('.status-indicator');
+
+        // Render contacts
+        function renderContacts() {
+            contactsContainer.innerHTML = '';
+            contacts.forEach(contact => {
+                const contactEl = document.createElement('div');
+                contactEl.classList.add('contact');
+                contactEl.dataset.id = contact.id;
+                
+                contactEl.innerHTML = `
+                    <div class="contact-avatar">${contact.avatar}</div>
+                    <div class="contact-info">
+                        <div class="contact-name">${contact.name}</div>
+                        <div class="contact-message">${contact.lastMessage}</div>
+                    </div>
+                    <div class="message-info">
+                        <div class="message-time">${contact.time}</div>
+                        ${contact.unread > 0 ? `<div class="message-count">${contact.unread}</div>` : ''}
+                    </div>
+                `;
+                
+                contactEl.addEventListener('click', () => {
+                    document.querySelectorAll('.contact').forEach(c => c.classList.remove('active'));
+                    contactEl.classList.add('active');
+                    openChat(contact.id);
+                });
+                
+                contactsContainer.appendChild(contactEl);
+            });
+            
+            // Activate first contact by default
+            if (contacts.length > 0) {
+                document.querySelector(`.contact[data-id="1"]`).classList.add('active');
+                openChat(1);
+            }
+        }
+
+        // Open chat with a contact
+        function openChat(contactId) {
+            const contact = contacts.find(c => c.id == contactId);
+            if (!contact) return;
+            
+            chatName.textContent = contact.name;
+            renderMessages(contactId);
+            
+            // Mark messages as read
+            contact.unread = 0;
+            renderContacts();
+        }
+
+        // Render messages for a contact
+        function renderMessages(contactId) {
+            const chatMessages = messages[contactId] || [];
+            messagesContainer.innerHTML = '';
+            
+            chatMessages.forEach(msg => {
+                let messageEl;
+                
+                if (msg.type === 'image') {
+                    messageEl = createImageMessage(msg);
+                } else if (msg.type === 'audio') {
+                    messageEl = createAudioMessage(msg);
+                } else {
+                    messageEl = createTextMessage(msg);
+                }
+                
+                messagesContainer.appendChild(messageEl);
+            });
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Create text message element
+        function createTextMessage(msg) {
+            const messageEl = document.createElement('div');
+            messageEl.classList.add('message');
+            messageEl.classList.add(msg.sender === 'user' ? 'sent' : 'received');
+            
+            messageEl.innerHTML = `
+                <div class="message-text">${msg.text}</div>
+                <div class="message-time-stamp">${msg.time}</div>
+            `;
+            
+            return messageEl;
+        }
+
+        // Create image message element
+        function createImageMessage(msg) {
+            const messageEl = document.createElement('div');
+            messageEl.classList.add('message');
+            messageEl.classList.add(msg.sender === 'user' ? 'sent' : 'received');
+            messageEl.classList.add('media-message');
+            
+            messageEl.innerHTML = `
+                <div class="message-text">${msg.text}</div>
+                <img src="${msg.content}" class="media-content" style="max-width: 250px; margin-top: 5px;">
+                <div class="message-time-stamp">${msg.time}</div>
+            `;
+            
+            return messageEl;
+        }
+
+        // Create audio message element
+        function createAudioMessage(msg) {
+            const messageEl = document.createElement('div');
+            messageEl.classList.add('message');
+            messageEl.classList.add(msg.sender === 'user' ? 'sent' : 'received');
+            messageEl.classList.add('audio-message');
+            
+            messageEl.innerHTML = `
+                <div class="play-button">
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="audio-player">
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                    <span>${msg.duration}</span>
+                </div>
+                <div class="message-time-stamp">${msg.time}</div>
+            `;
+            
+            return messageEl;
+        }
+
+        // Send a new message
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (!text) return;
+            
+            // Get current time
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            // Create new message
+            const newMessage = {
+                text,
+                time,
+                sender: 'user'
+            };
+            
+            // Add to messages for active contact
+            const activeContactId = document.querySelector('.contact.active').dataset.id;
+            if (!messages[activeContactId]) {
+                messages[activeContactId] = [];
+            }
+            messages[activeContactId].push(newMessage);
+            
+            // Update UI
+            renderMessages(activeContactId);
+            messageInput.value = '';
+            
+            // Simulate reply after a delay
+            setTimeout(() => {
+                simulateReply(activeContactId);
+            }, 1000);
+        }
+
+        // Simulate a reply from the contact
+        function simulateReply(contactId) {
+            const replies = [
+                "That's interesting!",
+                "I see what you mean.",
+                "Tell me more about that.",
+                "I agree with you.",
+                "Thanks for letting me know!",
+                "I'll get back to you on that.",
+                "Can we talk about this later?",
+                "I appreciate your thoughts on this."
+            ];
+            
+            const randomReply = replies[Math.floor(Math.random() * replies.length)];
+            
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            const replyMessage = {
+                text: randomReply,
+                time,
+                sender: 'contact'
+            };
+            
+            messages[contactId].push(replyMessage);
+            renderMessages(contactId);
+            
+            // Update contact list to show new message
+            const contact = contacts.find(c => c.id == contactId);
+            if (contact) {
+                contact.lastMessage = randomReply;
+                contact.time = time;
+                contact.unread = (contact.unread || 0) + 1;
+                renderContacts();
+            }
+        }
+
+        // Update pricing based on country
+        function updatePricing() {
+            const country = countrySelect.value;
+            let currencySymbol = '$';
+            let exchangeRate = 1;
+            
+            if (country === 'ZA') {
+                currencySymbol = 'R';
+                exchangeRate = 18.5; // ZAR to USD
+            } else if (country === 'AU') {
+                currencySymbol = 'A$';
+                exchangeRate = 1.5; // AUD to USD
+            } else if (country === 'GB') {
+                currencySymbol = '£';
+                exchangeRate = 0.8; // GBP to USD
+            } else if (country === 'DE') {
+                currencySymbol = '€';
+                exchangeRate = 0.9; // EUR to USD
+            }
+            
+            creditPackages.forEach(pkg => {
+                const amount = pkg.dataset.amount;
+                const usdPrice = parseFloat(pkg.dataset.price);
+                const localPrice = (usdPrice * exchangeRate).toFixed(2);
+                
+                pkg.querySelector('h3').textContent = `${amount} Credits`;
+                pkg.querySelector('div:last-child').textContent = `${currencySymbol}${localPrice}`;
+            });
+        }
+
+        // Simulate backend status changes
+        function simulateBackendStatus() {
+            setInterval(() => {
+                statusIndicators.forEach(indicator => {
+                    if (Math.random() > 0.8) {
+                        indicator.classList.toggle('offline');
+                    } else if (Math.random() > 0.6) {
+                        indicator.classList.toggle('processing');
+                    } else {
+                        indicator.classList.remove('offline', 'processing');
+                    }
+                });
+            }, 5000);
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        attachButton.addEventListener('click', () => {
+            // Show payment modal when trying to attach files
+            paymentModal.style.display = 'flex';
+        });
+
+        closeModal.addEventListener('click', () => {
+            paymentModal.style.display = 'none';
+        });
+
+        creditPackages.forEach(pkg => {
+            pkg.addEventListener('click', () => {
+                creditPackages.forEach(p => p.classList.remove('selected'));
+                pkg.classList.add('selected');
+            });
+        });
+
+        paymentButton.addEventListener('click', () => {
+            const selectedPackage = document.querySelector('.credit-package.selected');
+            const amount = selectedPackage.dataset.amount;
+            const country = countrySelect.value;
+            
+            alert(`Payment processed successfully! ${amount} credits added to your account. Country: ${country}`);
+            paymentModal.style.display = 'none';
+        });
+
+        countrySelect.addEventListener('change', updatePricing);
+
+        appDownload.addEventListener('click', () => {
+            alert('Mobile app download starting... (simulated)');
+        });
+
+        // Close modal if clicked outside
+        window.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                paymentModal.style.display = 'none';
+            }
+        });
+
+        // Simulate real-time updates
+        setInterval(() => {
+            // Randomly update status of contacts
+            const randomContact = contacts[Math.floor(Math.random() * contacts.length)];
+            if (randomContact && Math.random() > 0.7) {
+                const statuses = ['online', 'typing...', 'last seen recently'];
+                const statusElement = document.querySelector('.status');
+                if (statusElement) {
+                    statusElement.textContent = statuses[Math.floor(Math.random() * statuses.length)];
+                    
+                    // Reset after a delay
+                    setTimeout(() => {
+                        statusElement.textContent = 'online';
+                    }, 3000);
+                }
+            }
+        }, 8000);
+
+        // Initialize the app
+        renderContacts();
+        updatePricing();
+        simulateBackendStatus();
+    </script>
+</body>
+</html>
